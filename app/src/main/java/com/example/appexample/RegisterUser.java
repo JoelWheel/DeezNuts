@@ -1,9 +1,5 @@
 package com.example.appexample;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -14,18 +10,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.intellij.lang.annotations.JdkConstants;
-
 public class RegisterUser extends AppCompatActivity implements View.OnClickListener {
 
     private TextView banner, registerUser;
-    private EditText editTextFullName, editTextAge, editTextEmail, editTextPassword;
+    private EditText editTextFullName, editTextFlat, editTextEmail, editTextPassword;
     private ProgressBar progressBar;
 
     private FirebaseAuth mAuth;
@@ -44,7 +41,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
         registerUser.setOnClickListener(this);
 
         editTextFullName = (EditText) findViewById(R.id.fullName);
-        editTextAge = (EditText) findViewById(R.id.age);
+        editTextFlat = (EditText) findViewById(R.id.flat);
         editTextEmail = (EditText) findViewById(R.id.emailAddress);
         editTextPassword = (EditText) findViewById(R.id.password);
 
@@ -67,7 +64,16 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
         String fullName = editTextFullName.getText().toString().trim();
-        String age = editTextAge.getText().toString().trim();
+        String flat = editTextFlat.getText().toString().trim();
+
+        for (int i = 0; i < fullName.length(); i++) {
+            char c = fullName.charAt(i);
+            if (!(c >= 'A' && c <= 'Z') && !(c >= 'a' && c <= 'z')) {
+                editTextFullName.setError("No spaces and only letters!");
+                editTextFullName.requestFocus();
+                return;
+            }
+        }
 
         if(fullName.isEmpty()){
             editTextFullName.setError("Full name is required!");
@@ -75,9 +81,9 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
-        if(age.isEmpty()){
-            editTextAge.setError("Age is required!");
-            editTextAge.requestFocus();
+        if(flat.isEmpty()){
+            editTextFlat.setError("Flat is required!");
+            editTextFlat.requestFocus();
             return;
         }
 
@@ -99,8 +105,8 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
-        if(password.length() < 6){
-            editTextPassword.setError("Min password length should be 6 characters!");
+        if(password.length() < 8){
+            editTextPassword.setError("Min password length should be 8 characters!");
             editTextPassword.requestFocus();
             return;
         }
@@ -113,7 +119,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                 public void onComplete(@NonNull Task<AuthResult> task) {
 
                     if(task.isSuccessful()){
-                        User user = new User(fullName, age, email);
+                        User user = new User(fullName, flat, email);
 
                         FirebaseDatabase.getInstance().getReference("Users")
                                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -122,12 +128,12 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                             public void onComplete(@NonNull Task<Void> task) {
 
                                 if(task.isSuccessful()){
+                                    String userId = FirebaseDatabase.getInstance().getReference().child("User").toString();
                                     Toast.makeText(RegisterUser.this, "User has been registered successfully!", Toast.LENGTH_LONG).show();
-                                    progressBar.setVisibility(View.GONE);
                                 }else {
                                     Toast.makeText(RegisterUser.this, "Failed to register! Try again!", Toast.LENGTH_LONG).show();
-                                    progressBar.setVisibility(View.GONE);
                                 }
+                                progressBar.setVisibility(View.GONE);
                             }
                         });
 
@@ -140,4 +146,5 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
 
 
     }
+
 }

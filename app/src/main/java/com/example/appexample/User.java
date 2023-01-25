@@ -1,16 +1,16 @@
 package com.example.appexample;
 
 public class User {
-    public String fullName, age, email;
+    public String fullName, flat, email;
 
     public User(){
 
 
     }
 
-    public User(String fullName, String age, String email){
+    public User(String fullName, String flat, String email){
         this.fullName = fullName;
-        this.age = age;
+        this.flat = flat;
         this.email = email;
     }
 }
