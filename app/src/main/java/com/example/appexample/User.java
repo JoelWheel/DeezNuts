@@ -1,16 +1,9 @@
 package com.example.appexample;
 
 public class User {
-    public String fullName, flat, email;
-
-    public User(){
-
-
-    }
-
-    public User(String fullName, String flat, String email){
-        this.fullName = fullName;
-        this.flat = flat;
-        this.email = email;
-    }
+    public String fullName;
+    public String username;
+    public String password;
+    public String email;
+    public String flat;
 }
