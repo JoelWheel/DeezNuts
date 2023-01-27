@@ -35,15 +35,14 @@
         app:layout_constraintTop_toBottomOf="@+id/appName"/>
 
 
-    <EditText
-        android:id="@+id/emailAddress"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/username"
         android:layout_width="380dp"
         android:layout_height="50dp"
         android:layout_marginTop="160dp"
         android:background="@drawable/edit_text_bg"
         android:ems="10"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
+        android:hint="Username"
         android:textSize="22sp"
         android:paddingLeft="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -52,7 +51,7 @@
         app:layout_constraintVertical_bias=".7"
         />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/password"
         android:layout_width="380dp"
         android:layout_height="50dp"
@@ -65,7 +64,7 @@
         android:paddingLeft="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/emailAddress"
+        app:layout_constraintTop_toTopOf="@+id/username"
         />
 
     <Button

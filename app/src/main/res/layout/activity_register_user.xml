@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appName"/>
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/fullName"
         android:layout_width="380dp"
         android:layout_height="50dp"
@@ -49,11 +49,26 @@
         app:layout_constraintTop_toBottomOf="@+id/appName"
         />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/username"
+        android:layout_width="380dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/edit_text_bg"
+        android:ems="10"
+        android:hint="Username"
+        android:textSize="22sp"
+        android:paddingLeft="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fullName"
+        />
+
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/flat"
         android:layout_width="380dp"
         android:layout_height="50dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="70dp"
         android:background="@drawable/edit_text_bg"
         android:ems="10"
         android:hint="Appartment Number"
@@ -62,14 +77,14 @@
         android:paddingLeft="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/fullName"
+        app:layout_constraintTop_toTopOf="@+id/username"
         />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/emailAddress"
         android:layout_width="380dp"
         android:layout_height="50dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="70dp"
         android:background="@drawable/edit_text_bg"
         android:ems="10"
         android:hint="Email"
@@ -81,11 +96,11 @@
         app:layout_constraintTop_toTopOf="@+id/flat"
         />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/password"
         android:layout_width="380dp"
         android:layout_height="50dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="70dp"
         android:background="@drawable/edit_text_bg"
         android:ems="10"
         android:hint="Password"
