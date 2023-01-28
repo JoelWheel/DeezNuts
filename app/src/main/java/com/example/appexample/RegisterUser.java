@@ -21,6 +21,7 @@ public class RegisterUser extends AppCompatActivity {
     Button buttonSignUp;
     TextView textViewLogin;
     ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,45 +48,69 @@ public class RegisterUser extends AppCompatActivity {
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String fullName, username, password, email, flat;
-                fullName = String.valueOf(textInputEditTextFullName.getText());
-                username = String.valueOf(textInputEditTextUsername.getText());
-                password = String.valueOf(textInputEditTextPassword.getText());
-                email = String.valueOf(textInputEditTextEmail.getText());
-                flat = String.valueOf(textInputEditTextflat.getText());
+                progressBar.setVisibility(View.VISIBLE);
+                registerUser();
+                progressBar.setVisibility(View.GONE);
+                finish();
+            }
 
-                final Statement stmt = null;
-                final Connection conn = null;
-
-                if(!fullName.equals("") && !username.equals("") && !password.equals("") && !email.equals("") && !flat.equals("")) {
+            public void registerUser() {
+                String fullName = String.valueOf(textInputEditTextFullName.getText());
+                String username = String.valueOf(textInputEditTextUsername.getText());
+                String password = String.valueOf(textInputEditTextPassword.getText());
+                String email = String.valueOf(textInputEditTextEmail.getText());
+                String flat = String.valueOf(textInputEditTextflat.getText());
+                if (!fullName.isEmpty() && !username.isEmpty() && !password.isEmpty() && !email.isEmpty() && !flat.isEmpty()) {
                     progressBar.setVisibility(View.VISIBLE);
-                    Handler handler = new Handler();
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                String[] field = new String[5];
-                                field[0] = "username";
-                                field[1] = "fullName";
-                                field[2] = "flat";
-                                field[3] = "email";
-                                field[4] = "password";
-                                conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/loginregister", "root", "");
-                                System.out.println("Connection is created successfully:");
-                                stmt = conn.createStatement();
-                                String sql = "INSERT INTO users" + "VALUES (username, fullName, flat, email, password)";
-                                stmt.executeUpdate(sql);
-                            } catch (Exception e) {
-                                System.out.println("Database connection failed!");
-                            }
-                            progressBar.setVisibility(View.GONE);
-
-                        }
-
-                    });
-
+                    user = addUserToDatabase(fullName, username, password, email, flat);
+                    final Statement stmt = null;
+                    final Connection conn = null;
                 }
+            }
+
+            User user;
+
+            private User addUserToDatabase(String fullName, String username, String password, String email, String flat) {
+                User user = null;
+                final String DB_URL = "jdbc:mysql://localhost/loginregister";
+                final String USERNAME = "root";
+                final String PASSWORD = "";
+
+                try {
+                    Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+                    // Connected to database successfully...
+
+                    Statement stmt = conn.createStatement();
+                    String sql = "INSERT INTO users (fullName, username, password, email, flat) " +
+                            "VALUES (?, ?, ?, ?, ?)";
+                    PreparedStatement preparedStatement = conn.prepareStatement(sql);
+                    preparedStatement.setString(1, fullName);
+                    preparedStatement.setString(2, username);
+                    preparedStatement.setString(3, password);
+                    preparedStatement.setString(4, email);
+                    preparedStatement.setString(5, flat);
+
+                    //Insert row into the table
+                    int addedRows = preparedStatement.executeUpdate();
+                    if (addedRows > 0) {
+                        user = new User();
+                        user.fullName = fullName;
+                        user.username = username;
+                        user.password = password;
+                        user.email = email;
+                        user.flat = flat;
+                    }
+
+                    stmt.close();
+                    conn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return user;
             }
         });
     }
 }
+
+
+

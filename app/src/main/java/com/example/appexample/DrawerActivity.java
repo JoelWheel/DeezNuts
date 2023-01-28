@@ -49,6 +49,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         fragmentTransaction.add(R.id.container_fragment, new ChatFragment());
         fragmentTransaction.commit();
 
+        return null;
     }
 
     @Override

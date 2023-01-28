@@ -55,6 +55,7 @@ public class UpdateProfile extends AppCompatActivity{
 
         });
 
+        return null;
     }
 
     @Override

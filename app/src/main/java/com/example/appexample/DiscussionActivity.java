@@ -94,6 +94,7 @@ public class DiscussionActivity extends AppCompatActivity {
 
             }
         });
+        return null;
     }
 
 
